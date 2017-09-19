@@ -1,0 +1,11 @@
+{
+  "directory": "public/components/",
+  "timeout": 120000,
+  "save": true,
+  "registry": {
+    "search": [
+      "http://localhost:8000",
+      "https://bower.herokuapp.com"
+    ]
+  }
+}

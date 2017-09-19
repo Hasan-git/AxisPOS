@@ -1,0 +1,23 @@
+{
+  "name": "auth",
+  "description": "",
+  "main": "resources/views/welcome.blade.php",
+  "authors": [
+    "Hasan-git <hasan.ri25@gmail.com>"
+  ],
+  "directory": "public/bower_components",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "save": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "^2.4.4"
+  }
+}
