@@ -1,0 +1,222 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Settings</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Settings</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="text-center animated fadeInRightBig">
+                <!-- Status -->
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Opening time.</h5>
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="opening-time-settings">
+                                <div class="col-xs-12 m-b-lg" ng-show="!timeEditor">
+                                    Open time <strong>{{from | date:"h:mma"}}</strong> Close time <strong> {{to | date:"h:mma"}} </strong>
+                                </div>
+
+                                <div class="col-xs-12 col-md-8 col-sm-11 m-b-lg p-sides-0" id="opening-time" ng-show="timeEditor">
+                                    <form name="openTime" novalidate>
+                                        <div class="form-group col-xs-12 col-sm-5 col-md-5 p-sides-0"
+                                             ng-class="{'has-error':openTime.fromInpt.$invalid}">
+                                            <label class="control-label pull-left">From</label>
+                                            <input type="text" name="fromInpt" placeholder="Time From" class="form-control" format="HH:mm:ss" date-time ng-model="opening.from" view="hours" data-mask="99:99:99" required />
+                                            <span ng-show="openTime.fromInpt.$invalid" class="color-red">
+                                                <span class="message" ng-show="openTime.fromInpt.$error.required">Open time is required.</span>
+                                            </span>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-sm-5 col-md-5 p-sides-0"
+                                             ng-class="{'has-error':openTime.toInpt.$invalid}">
+                                            <label class="control-label pull-left">To</label>
+                                            <input type="text" name="toInpt" placeholder="Time To" class="form-control" format="HH:mm:ss" date-time ng-model="opening.to" view="hours" data-mask="99:99:99" required />
+                                            <span ng-show="openTime.toInpt.$invalid" class="color-red">
+                                                <span class="message" ng-show="openTime.toInpt.$error.required">Close time is required.</span>
+                                            </span>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-sm-2 col-md-2">
+                                            <input type="button" class="btn btn-primary" value="Save" ng-click="saveTimeChanges(openTime)" style="margin-top:23px;" ng-disabled="openTime.$invalid" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-xs-12">
+                                    <button type="button" class="btn btn-primary btn-w-m" ng-click="timeEditor=true" ng-show="!timeEditor">
+                                        Edit
+                                    </button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Financial -->
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Financial.</h5>
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <form class="" name="financialForm" novalidate>
+                                <div class="col-xs-12 col-sm-6 col-md-4 text-left">
+                                    <div class="form-group col-xs-12"
+                                         ng-class="{'has-error':financialForm.pCurrencyInpt.$invalid && financialForm.pCurrencyInpt.$dirty || financialForm.pCurrencyInpt.$invalid && financialForm.pCurrencyInpt.$touched   }">
+                                        <label class="control-label">Primary currency <small>*</small></label>
+                                        <select chosen id="states" class="chosen-select" name="pCurrencyInpt" style="width:200px;" ng-options="item.code as item.name for item in currencies" ng-model="financial.primaryCurrency" ng-disabled="!showFinancialForm" required>
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="financialForm.pCurrencyInpt.$dirty && financialForm.pCurrencyInpt.$invalid || financialForm.pCurrencyInpt.$touched && financialForm.pCurrencyInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="financialForm.pCurrencyInpt.$error.required">Primary currency is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12"
+                                         ng-class="{'has-error':financialForm.sCurrencyInpt.$invalid && financialForm.sCurrencyInpt.$dirty || financialForm.sCurrencyInpt.$invalid && financialForm.sCurrencyInpt.$touched   }">
+                                        <label class="control-label">Secondary currency <small>*</small></label>
+                                        <select chosen id="states" class="chosen-select" name="sCurrencyInpt" style="width:200px;" ng-options="item.code as item.name for item in currencies" ng-model="financial.secondaryCurrency" ng-disabled="!showFinancialForm" required>
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="financialForm.sCurrencyInpt.$dirty && financialForm.sCurrencyInpt.$invalid || financialForm.sCurrencyInpt.$touched && financialForm.sCurrencyInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="financialForm.sCurrencyInpt.$error.required">Secondary currency is required.</span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-12">
+                                    <button type="button" class="btn btn-primary btn-w-m" ng-init="showFinancialForm = false" ng-click="showFinancialFormfn(financialForm)" ng-show="!showFinancialForm">
+                                        Edit
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary btn-w-m" ng-click="saveFinancialChanges(financialForm)" ng-show="showFinancialForm" ng-disabled="financialForm.$invalid" >
+                                        Save
+                                    </button>
+                                    <button type="button" class="btn btn-white"  ng-click="cancelFinancialForm(financialForm)" ng-show="showFinancialForm">
+                                        Cancel
+                                    </button>
+
+                                </div>
+                            </form>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Contact Info.</h5>
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="col-lg-8 vendor-contact">
+                                <form editable-form name="editableForm" onaftersave="saveContactChanges()" class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="VendorName" class="col-sm-3 control-label">Vendor name</label>
+                                        <div class="col-sm-8 input-field">
+                                            <span editable-text="contactInfo.name" e-name="VendorName" e-required>{{ contactInfo.name || '' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="EmailAddress" class="col-sm-3 control-label">Email</label>
+                                        <div class="col-sm-8 input-field">
+                                            <span editable-email="contactInfo.emailAddress" e-name="EmailAddress">{{ contactInfo.emailAddress || '' }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="WebUrl" class="col-sm-3 control-label">Website Url</label>
+                                        <div class="col-sm-8 input-field">
+                                            <span editable-url="contactInfo.websiteUrl" e-name="WebUrl">{{ contactInfo.websiteUrl || '' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description" class="col-sm-3 control-label">Description</label>
+                                        <div class="col-sm-8 input-field">
+                                            <span editable-textarea="contactInfo.description" e-rows="2" e-cols="40" e-name="description">{{ contactInfo.description || '' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8 col-sm-offset-3 new-address">
+                                        <div class="btn btn-primary " ng-click="addContactNumber()" ng-show="editableForm.$visible">
+                                            <i class="fa fa-plus-circle"></i> New contact
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div ng-repeat="var in contactInfo.contactNumbers track by $index">
+                                            <div class="form-group">
+                                                <label for="contactNumber" class="col-sm-3 control-label">Contact Number {{$index+1}}</label>
+                                                <div class="col-sm-8 input-field">
+                                                    <span editable-text="var.number" e-name="contactNumber" e-required>{{ var.number || '' }}</span>
+                                                </div>
+                                                <div class="col-sm-1" ng-show="editableForm.$visible && contactInfo.contactNumbers.length > 1 " ng-click="removeContactNumber($index)">
+                                                    <div class="btn btn-danger" style="padding:3px 8px;">
+                                                        <i class="fa fa-trash"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8 col-sm-offset-3 new-address">
+                                        <div class="btn btn-primary " ng-click="addNewAddress()" ng-show="editableForm.$visible">
+                                            <i class="fa fa-plus-circle"></i> New Address
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div ng-repeat="var in contactInfo.addresses track by $index">
+                                            <div class="form-group">
+                                                <label for="address" class="col-sm-3 control-label">Address {{$index+1}}</label>
+                                                <div class="col-sm-8 input-field">
+                                                    <span editable-textarea="var.address" e-rows="2" e-cols="40" e-name="address" e-required>{{ var.address || '' }}</span>
+                                                </div>
+                                                <div class="col-sm-1" ng-show="editableForm.$visible && contactInfo.addresses.length > 1">
+                                                    <div class="btn btn-danger" style="padding:3px 8px;" ng-click="removeAddress($index)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-w-m" ng-click="editableForm.$show();showEditForm()" ng-show="!editableForm.$visible">
+                                            Edit
+                                        </button>
+                                        <span ng-show="editableForm.$visible">
+                                            <button type="submit" class="btn btn-primary btn-w-m" ng-disabled="editableForm.$waiting">
+                                                Save
+                                            </button>
+                                            <button type="button" class="btn btn-white" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+                                                Cancel
+                                            </button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
