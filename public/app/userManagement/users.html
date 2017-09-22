@@ -1,0 +1,271 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>User management</h2>
+        <ol class="breadcrumb">
+            <li ui-sref="abstract.vendors" class="pointer">
+                Vendors
+            </li>
+            <li class="active">
+                <strong>User management</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="text-center animated fadeInRightBig">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Users</h5>
+                            <div ibox-tools-full-screen></div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <!-- New   | User  -->
+                            <div class="col-xs-12 p-sides-0 m-b-lg form-container-s" ng-show="showForm" ng-init="showForm=false">
+                                <form role="form" class="col-md-10 m-b-lg p-sides-0" name="userForm" novalidate>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.firstNameInpt.$invalid && userForm.firstNameInpt.$dirty }">
+                                        <label class="control-label">First name</label>
+                                        <input type="text" name="firstNameInpt" placeholder="First name" ng-model="user.firstName" class="form-control" required>
+                                        <span ng-show="userForm.firstNameInpt.$dirty && userForm.firstNameInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userForm.firstNameInpt.$error.required">First name is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.lastNameInpt.$invalid && userForm.lastNameInpt.$dirty }">
+                                        <label class="control-label">Last name</label>
+                                        <input type="text" name="lastNameInpt" placeholder="Last name" ng-model="user.lastName" class="form-control" required>
+                                        <span ng-show="userForm.lastNameInpt.$dirty && userForm.lastNameInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userForm.lastNameInpt.$error.required">Last name is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.phoneInpt.$invalid && userForm.phoneInpt.$dirty }">
+                                        <label class="control-label">Phone number</label>
+                                        <input type="text" name="phoneInpt" placeholder="Phone number" ng-model="user.phoneNumber" class="form-control" ng-minlength="6" numerical required>
+                                        <span ng-show="userForm.phoneInpt.$dirty && userForm.phoneInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.required">Phone number is required.</span>
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.minlength">Too short.</span>
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.numericalmatch">Invalid Phone number.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.emailInpt.$invalid && userForm.emailInpt.$dirty }">
+                                        <label class="control-label">Email</label>
+                                        <input type="text" name="emailInpt" placeholder="Email" ng-model="user.email" class="form-control" ng-minlength="6" required>
+                                        <span ng-show="userForm.emailInpt.$dirty && userForm.emailInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.emailInpt.$error.required">Email is required.</span>
+                                            <span class="message" ng-show="userForm.emailInpt.$error.email">Enter a valid email.</span>
+                                            <span class="message" ng-show="userForm.emailInpt.$error.minlength">Too short.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.roleInpt.$invalid && userForm.roleInpt.$dirty }">
+                                        <label class="control-label">Role</label>
+                                        <select chosen multiple
+                                                placeholder-text-multiple="'SELECT ROLES'"
+                                                ng-model="userRoles"
+                                                ng-options="s.name as s.name for s in rolesList">
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="userForm.roleInpt.$dirty && userForm.roleInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.roleInpt.$error.required">Username is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.userNameInpt.$invalid && userForm.userNameInpt.$dirty }">
+                                        <label class="control-label">Username</label>
+                                        <input type="text" name="userNameInpt" placeholder="Username" ng-model="user.userName" class="form-control" required>
+                                        <span ng-show="userForm.userNameInpt.$dirty && userForm.userNameInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.userNameInpt.$error.required">Username is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.passwordInpt.$invalid && userForm.passwordInpt.$dirty }">
+                                        <label class="control-label">Password</label>
+                                        <input type="text" id="passwordInpt" name="passwordInpt" placeholder="Password" ng-model="user.password"  ng-minlength="6" class="form-control" required>
+                                        <span ng-show="userForm.passwordInpt.$dirty && userForm.passwordInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userForm.passwordInpt.$error.required">Password is required.</span>
+                                            <span class="message" ng-show="userForm.passwordInpt.$error.minlength">6 characters at least.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.cPasswordInpt.$invalid && userForm.cPasswordInpt.$dirty }">
+                                        <label class="control-label">Confirm password</label>
+                                        <input type="text" name="cPasswordInpt" placeholder="Confirm password" ng-model="user.confirmPassword" class="form-control"  ng-minlength="6" pw-check='passwordInpt' required>
+                                        <span ng-show="userForm.cPasswordInpt.$dirty && userForm.cPasswordInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userForm.cPasswordInpt.$error.required">Password confirmation is required.</span>
+                                            <span class="message" ng-show="userForm.cPasswordInpt.$error.minlength">6 characters at least.</span>
+                                            <span class='message' ng-show='userForm.cPasswordInpt.$error.pwmatch'>
+                                                Passwords don't match.
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <!--<div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.vendorInpt.$invalid && userForm.vendorInpt.$dirty }">
+                                        <label class="control-label">Vendor</label>
+                                        <select chosen
+                                                ng-model="user.vendorId"
+                                                ng-options="s.id as s.name for s in vendorsList"
+                                                required>
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="userForm.vendorInpt.$dirty && userForm.vendorInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.vendorInpt.$error.required">Vendor is required.</span>
+                                        </span>
+                                    </div>-->
+
+                                    <div class="form-group col-xs-12 col-sm-12 form-container-footer">
+                                        <!--<div class="col-xs-12 col-sm-8 p-sides-0 f-g">
+                                            <label>Address</label>
+                                            <textarea class="form-control" placeholder="Address" ng-model="user.address"></textarea>
+                                        </div>-->
+
+                                        <!-- Buttons -->
+                                        <div class="col-xs-12 col-sm-4 p-sides-0">
+                                            <input type="button" class="btn btn-primary btn-w-m" value="Save" ng-disabled="userForm.$invalid"  ng-click="saveUserForm(userForm)">
+                                            <input type="button" class="btn btn-white" value="Cancel" ng-click="canceluserForm(userForm)">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+
+                            <!-- Edit   | User  -->
+                            <div class="col-xs-12 p-sides-0 m-b-lg form-container-s" ng-show="showEditForm" ng-init="showEditForm=false">
+                                <form role="form" class="col-md-10 m-b-lg p-sides-0" name="userEditForm" novalidate>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userEditForm.firstNameInpt.$invalid && userEditForm.firstNameInpt.$dirty }">
+                                        <label class="control-label">First name</label>
+                                        <input type="text" name="firstNameInpt" placeholder="First name" ng-model="user.firstName" class="form-control" required>
+                                        <span ng-show="userEditForm.firstNameInpt.$dirty && userEditForm.firstNameInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userEditForm.firstNameInpt.$error.required">First name is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userEditForm.lastNameInpt.$invalid && userEditForm.lastNameInpt.$dirty }">
+                                        <label class="control-label">Last name</label>
+                                        <input type="text" name="lastNameInpt" placeholder="Last name" ng-model="user.lastName" class="form-control" required>
+                                        <span ng-show="userEditForm.lastNameInpt.$dirty && userEditForm.lastNameInpt.$invalid"
+                                              class="color-red">
+                                            <span class="message" ng-show="userEditForm.lastNameInpt.$error.required">Last name is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <!--<div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.phoneInpt.$invalid && userForm.phoneInpt.$dirty }">
+                                        <label class="control-label">Phone number</label>
+                                        <input type="text" name="phoneInpt" placeholder="Phone number" ng-model="user.phoneNumber" class="form-control" ng-minlength="6" numerical>
+                                        <span ng-show="userForm.phoneInpt.$dirty && userForm.phoneInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.required">Phone number is required.</span>
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.minlength">Too short.</span>
+                                            <span class="message" ng-show="userForm.phoneInpt.$error.numericalmatch">Invalid Phone number.</span>
+                                        </span>
+                                    </div>-->
+
+                                    <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.roleInpt.$invalid && userForm.roleInpt.$dirty }">
+                                        <label class="control-label">Role</label>
+                                        <select chosen multiple
+                                                name="userRolesInpt"
+                                                placeholder-text-multiple="'SELECT ROLES'"
+                                                ng-model="user.roles"
+                                                ng-options="s.name as s.name for s in rolesList">
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="userForm.roleInpt.$dirty && userForm.roleInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.roleInpt.$error.required">Username is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <!--<div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':userForm.vendorInpt.$invalid && userForm.vendorInpt.$dirty }">
+                                        <label class="control-label">Vendor</label>
+                                        <select chosen
+                                                ng-model="user.vendorId"
+                                                ng-options="s.id as s.name for s in vendorsList"
+                                                required>
+                                            <option value=""></option>
+                                        </select>
+                                        <span ng-show="userForm.vendorInpt.$dirty && userForm.vendorInpt.$invalid" class="color-red">
+                                            <span class="message" ng-show="userForm.vendorInpt.$error.required">Vendor is required.</span>
+                                        </span>
+                                    </div>-->
+
+                                    <div class="form-group col-xs-12 col-sm-12 form-container-footer">
+                                        <!--<div class="col-xs-12 col-sm-8 p-sides-0 f-g">
+                                            <label>Address</label>
+                                            <textarea class="form-control" placeholder="Address" ng-model="user.address"></textarea>
+                                        </div>-->
+
+                                        <!-- Buttons -->
+                                        <div class="col-xs-12 col-sm-4 p-sides-0">
+                                            <input type="button" class="btn btn-primary" value="Save" ng-disabled="userEditForm.$invalid" ng-click="saveUserForm(userEditForm)">
+                                            <input type="button" class="btn btn-white" value="Cancel" ng-click="canceluserForm(userEditForm)">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+
+                            <div class="text-left new-branch">
+                                <button class="btn btn-primary btn-sm btn-w-m" ng-click="showNewUser(userForm)"><i class="fa fa-plus"></i> New User</button>
+                            </div>
+                            <div class="tbl-users">
+                                <table datatable="" dt-options="dtOption" dt-columns="dtColumn" dt-instance="dtInstance" class="row-border hover table table-striped  table-hover dataTables-example " width="100%">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="deleteUser.html">
+    <div class="modal-header order-modal-header">
+        <h2 class="modal-title"><i class="fa fa-info-circle fa-lg text-warning"></i> User management</h2>
+    </div>
+    <div class="modal-body order-modal-body">
+       Are you sure you want to delete this user ?
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="deleteUserConfirmed(_userId)">Sure</button>
+        <button class="btn btn-white btn-w-m" type="button" ng-click="cancel()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="resetPassword.html">
+    <div class="modal-header order-modal-header">
+        <h2 class="modal-title"><i class="fa fa-info-circle fa-lg text-warning"></i> User management</h2>
+    </div>
+    <div class="modal-body order-modal-body">
+        Are you sure you want to reset the password for this user ?
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="resetPasswordConfirmed(_userId)">Sure</button>
+        <button class="btn btn-white btn-w-m" type="button" ng-click="cancel()">Close</button>
+    </div>
+</script>

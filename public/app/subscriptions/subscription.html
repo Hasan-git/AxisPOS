@@ -1,0 +1,106 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Subscription</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Subscription</strong>
+            </li>
+        </ol>
+    </div>    
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="text-center animated fadeInRightBig">
+
+            <div class="col-xs-12 p-sides-0">
+                <div class="col-md-5 text-left">
+                    <div class="payment-card">
+                       <i class="fa fa-credit-card-alt payment-icon-big text-success-blue" ng-class="currentSub.status"></i>
+                       <div class="status">
+                           <span ng-class="currentSub.status" class="text-capitalize" ng-class="currentSub.status">{{currentSub.status}}</span>
+                           <span class="renew text-success" ng-click="purchaseBox=true">Renew</span>
+                       </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <small>
+                                    <strong>Purchased at:</strong> {{currentSub.purchasedAt }}
+                                </small>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <small>
+                                <strong>Expiry date:</strong> {{currentSub.expiryDate }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!--  -->
+                <div class="col-md-6" ng-show="purchaseBox">
+                    <div class="ibox">
+                        <div class="ibox-title text-left">
+                            <span>Purchase via credit card</span>
+                            <div class="ibox-tools">
+                                <a class="" ng-click="purchaseBox=false"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" >
+                            <div class="row">
+                                <form role="form" id="payment-form">
+                                    <div class="col-md-12 text-left">
+                                        <h2>Summary</h2>
+                                        <strong>Product:</strong> Name of product <br>
+                                        <strong>Price:</strong> <span class="text-navy">$30.0</span><br>
+                                        <div class="form-group m-t-xs" >
+                                            <label for="quantity" style="line-height: 31px;"><strong>Quantity</strong>: </label>
+                                            <input type="text" class="form-control m-l-xs" value="1" name="quantity">
+                                        </div>
+                                        <p class="m-t text-justify">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                            nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                        <p class="text-justify"> 
+                                            Duis aute irure dolor
+                                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                            nulla pariatur. Excepteur sint occaecat cupidatat.
+                                        </p>
+                                    </div> 
+                                    <div class="row m-t-md">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-primary" type="submit" ng-click="purchase()" >Make a payment!</button>
+                                        </div>
+                                    </div>    
+                                </form>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+                <!--  -->
+                <div class="col-md-12" >
+                    <div class="ibox">
+                        <div class="ibox-title text-left">
+                            <span>Purchases</span>
+                        </div>
+                        <div class="ibox-content" >
+                            <div class="purhaseHistory">
+                                <table datatable="" dt-options="dtOption" dt-columns="dtColumn" dt-instance="dtInstance" class="row-border hover table table-striped  table-hover dataTables-example full-responsive-table tbl-purchase" width="100%">
+                                </table>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+
+            </div>
+        </div>
+    </div>
+</div>

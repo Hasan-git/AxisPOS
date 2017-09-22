@@ -1,0 +1,94 @@
+<style type="text/css">
+    
+
+</style>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Branches</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Branches</strong>
+            </li>
+        </ol>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="text-center animated fadeInRightBig">
+                <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Branches.</h5>
+                                 <div ibox-tools-full-screen></div>
+                            </div>
+                            <div class="ibox-content">
+
+                                <!-- New - Edit  | User  -->
+                                    <div class="col-xs-12 p-sides-0 m-b-lg form-container-s" ng-show="showForm" ng-init="showForm=false">
+                                     <form role="form" class="col-md-10 m-b-lg p-sides-0" name="branchForm" novalidate>
+
+                                        <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':branchForm.branchNameInpt.$invalid && branchForm.branchNameInpt.$dirty }">
+                                            <label class="control-label">Branch name</label>
+                                            <input type="text" name="branchNameInpt" placeholder="Branch name" ng-model="branch.name" class="form-control" ng-minlength="3" required>
+                                            <span ng-show="branchForm.branchNameInpt.$dirty && branchForm.branchNameInpt.$invalid" 
+                                            class="color-red">
+                                                <span class="message" ng-show="branchForm.branchNameInpt.$error.minlength">Too short.</span>
+                                                <span class="message" ng-show="branchForm.branchNameInpt.$error.required">Branch name is required.</span>
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':branchForm.phoneNumberInpt.$invalid && branchForm.phoneNumberInpt.$dirty }">
+                                            <label class="control-label">Phone</label>
+                                            <input type="text" name="phoneNumberInpt" placeholder="Phone number" ng-model="branch.phoneNumber" class="form-control" ng-minlength="6" numerical >
+                                            <span ng-show="branchForm.phoneNumberInpt.$dirty && branchForm.phoneNumberInpt.$invalid" 
+                                            class="color-red">
+                                                <span class="message" ng-show="branchForm.phoneNumberInpt.$error.required">Phone number is required.</span>
+                                                <span class="message" ng-show="branchForm.phoneNumberInpt.$error.minlength">Too short.</span>
+                                                <span class="message" ng-show="branchForm.phoneNumberInpt.$error.numericalmatch">Invalid mobile number.</span>
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group col-xs-12 col-sm-8 f-g"
+                                         ng-class="{'has-error':branchForm.emailInpt.$invalid && branchForm.emailInpt.$dirty }">
+                                            <label class="control-label">Email</label>
+                                            <input type="email" name="emailInpt" placeholder="Email" ng-model="branch.email" class="form-control" >
+                                            <span ng-show="branchForm.emailInpt.$dirty && branchForm.emailInpt.$invalid" class="color-red">
+                                                <span class="message" ng-show="branchForm.emailInpt.$error.required">Email is required.</span>
+                                                <span class="message" ng-show="branchForm.emailInpt.$error.email">Not valid email.</span>
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group col-xs-12 col-sm-12 form-container-footer">
+                                            <div class="col-xs-12 col-sm-8 p-sides-0 f-g">
+                                                <label>Address</label>
+                                                <textarea class="form-control" placeholder="Address" ng-model="branch.location"></textarea>
+                                            </div>
+                                            
+                                            <div class="col-xs-12 col-sm-4 p-sides-0">
+                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="branchForm.$invalid" ng-click="saveBranchForm(branchForm)">
+                                                <input type="button" class="btn btn-white" value="Cancel" ng-click="cancelbranchForm(branchForm)">
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div> 
+                                <div class="text-left">
+                                    <button class="btn btn-primary btn-xs" ng-click="showNewBranch(branchForm)"><i class="fa fa-plus"></i> New Branch</button>
+                                </div>
+                                <div class="tbl-users">
+                                    <table datatable="" dt-options="dtOptionBranch" dt-columns="dtColumn" dt-instance="dtInstance" class="row-border hover table table-striped  table-hover dataTables-example full-responsive-table" style="margin:0 auto;" width="100%">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

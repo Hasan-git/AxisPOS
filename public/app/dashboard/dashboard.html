@@ -1,0 +1,192 @@
+<div class="row border-bottom white-bg dashboard-header">
+    <div class="container-fluid">
+        <div class="col-xs-12 p-sides-0 opening-container">
+            <p class="bg-info alert col-xs-12 col-md-8 col-sm-10">
+                Public service is <strong>{{openingStatus | openingStatus}}</strong>, openging hours : from <strong>{{from | date:"h:mma"}}</strong> to  <strong> {{to | date:"h:mma"}} </strong>
+                <span class="pull-right pointer" style="color: #326fa5;" ng-click="timeEditor=true">
+                    <strong><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Edit</strong>
+                </span>
+            </p>
+            <div class="col-xs-12 col-md-8 col-sm-11 m-b-lg" id="opening-time" ng-show="timeEditor">
+                <form name="openTime" novalidate>
+                    <div class="form-group col-xs-12 col-sm-5 col-md-5"
+                         ng-class="{'has-error':openTime.fromInpt.$invalid}">
+                        <label class="control-label">From</label>
+                        <input type="text" name="fromInpt" placeholder="Time From" class="form-control" format="HH:mm:ss" date-time ng-model="opening.from" view="hours" data-mask="99:99" required />
+                        <span ng-show="openTime.fromInpt.$invalid" class="color-red">
+                            <span class="message" ng-show="openTime.fromInpt.$error.required">Open time is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-5 col-md-5"
+                         ng-class="{'has-error':openTime.toInpt.$invalid}">
+                        <label class="control-label">To</label>
+                        <input type="text" name="toInpt" placeholder="Time To" class="form-control" format="HH:mm:ss" date-time ng-model="opening.to" view="hours" data-mask="99:99" required />
+                        <span ng-show="openTime.toInpt.$invalid" class="color-red">
+                            <span class="message" ng-show="openTime.toInpt.$error.required">Close time is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-2 col-md-2">
+                        <input type="button" class="btn btn-primary" value="Save" ng-click="saveTimeChanges(openTime)" style="margin-top:23px;" />
+                    </div>
+                </form>
+                <span class="close-box pointer" ng-click="closeBox(openTime)"><i class="fa fa-lg fa-times"></i></span>
+            </div>
+
+        </div>
+
+        <uib-tabset>
+            <!-- TODAY  -->
+            <uib-tab>
+                <uib-tab-heading>Today </uib-tab-heading>
+                <!-- Box1 -->
+                <div class="col-md-3 col-sm-6  m-t-lg" style="margin-left: -15px;">
+                    <div class="iconic-w-wrap number-rotate">
+                        <span class="stat-w-title">Orders Today</span>
+                        <a href="#" class="ico-cirlce-widget w_bg_cyan" ui-sref="abstract.orders({navigateTo: 'new'})">
+                            <span><i class="fa fa-cart-plus"></i></span>
+                        </a>
+                        <div class="w-meta-info">
+                            <span class="w-meta-value number-animate counter" ng-model="tCtrNew" value="tCtrNew" to="today.new" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ tCtrNew | number:0 }}</span>
+                            <span class="w-meta-title font-bold-800 lazur-color">New Orders</span>
+                            <span class="w-previos-stat">Pre Day : {{ yCtrNew | number:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Box2 -->
+                <div class="col-md-3 col-sm-6  m-t-lg">
+                    <div class="iconic-w-wrap number-rotate">
+                        <span class="stat-w-title">Orders Today</span>
+                        <a href="#" class="ico-cirlce-widget blue-bg" ui-sref="abstract.orders({navigateTo: 'inProgress'})">
+                            <span><i class="fa fa-tasks"></i></span>
+                        </a>
+                        <div class="w-meta-info">
+                            <span class="w-meta-value number-animate counter" ng-model="tCtrIn" value="tCtrIn" to="today.inprogress" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ tCtrIn | number:0 }}</span>
+                            <span class="w-meta-title font-bold-800 blue-color">In Progress</span>
+                            <span class="w-previos-stat">Pre Day : {{ yCtrIn | number:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Box3 -->
+                <div class="col-md-3 col-sm-6  m-t-lg">
+                    <div class="iconic-w-wrap number-rotate">
+                        <span class="stat-w-title">Orders Today</span>
+                        <a href="#" class="ico-cirlce-widget yellow-bg" ui-sref="abstract.orders({navigateTo: 'shipped'})">
+                            <span><i class="fa fa-shopping-bag"></i></span>
+                        </a>
+                        <div class="w-meta-info">
+                            <span class="w-meta-value number-animate counter" ng-model="tCtrShipped" value="tCtrShipped" to="today.shipped" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ tCtrShipped | number:0 }}</span>
+                            <span class="w-meta-title font-bold-800 yellow-color">Shipped</span>
+                            <span class="w-previos-stat">Pre Day : {{ yCtrShipped | number:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Box4 -->
+                <div class="col-md-3 col-sm-6  m-t-lg">
+                    <div class="iconic-w-wrap number-rotate">
+                        <span class="stat-w-title">Orders Today</span>
+                        <a href="#" class="ico-cirlce-widget navy-bg" ui-sref="abstract.orders({navigateTo: 'completed'})">
+                            <span><i class="fa fa-check-square-o"></i></span>
+                        </a>
+                        <div class="w-meta-info">
+                            <span class="w-meta-value number-animate counter" ng-model="tCtrCompleted" value="tCtrCompleted" to="today.completed" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ tCtrCompleted | number:0 }}</span>
+                            <span class="w-meta-title font-bold-800 navy-color">Completed</span>
+                            <span class="w-previos-stat">Pre Day : {{ yCtrCompleted | number:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Box5 -->
+                <div class="col-md-3 col-sm-6  m-t-lg" style="margin-left: -15px;">
+                    <div class="iconic-w-wrap number-rotate">
+                        <span class="stat-w-title">Orders Today</span>
+                        <a href="#" class="ico-cirlce-widget red-bg" ui-sref="abstract.orders({navigateTo: 'rejected'})">
+                            <span><i class="fa fa-ban"></i></span>
+                        </a>
+                        <div class="w-meta-info">
+                            <span class="w-meta-value number-animate counter" ng-model="tCtrRejected" value="tCtrRejected" to="today.rejected" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ tCtrRejected | number:0 }}</span>
+                            <span class="w-meta-title font-bold-800 red-color">Rejected</span>
+                            <span class="w-previos-stat">Pre Day : {{ yCtrRejected | number:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </uib-tab>
+            <!-- YESTERDAY  -->
+            <uib-tab>
+                <uib-tab-heading>Yesterday</uib-tab-heading>
+                <div class="row m-l-none">
+                    <!-- Box1 -->
+                    <div class="col-md-3 col-sm-6  m-t-lg" style="margin-left: -15px;">
+                        <div class="iconic-w-wrap number-rotate">
+                            <span class="stat-w-title">Orders Yesterday</span>
+                            <a href="#" class="ico-cirlce-widget w_bg_cyan" ui-sref="abstract.orders({navigateTo: 'new'})">
+                                <span><i class="fa fa-cart-plus"></i></span>
+                            </a>
+                            <div class="w-meta-info">
+                                <span class="w-meta-value number-animate counter" ng-model="yCtrNew" value="yCtrNew" to="yesterday.new" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ yCtrNew | number:0 }}</span>
+                                <span class="w-meta-title font-bold-800 lazur-color">New Orders</span>
+                                <span class="w-previos-stat">Last Day : {{ tCtrNew | number:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Box2 -->
+                    <div class="col-md-3 col-sm-6  m-t-lg">
+                        <div class="iconic-w-wrap number-rotate">
+                            <span class="stat-w-title">Orders Yesterday</span>
+                            <a href="#" class="ico-cirlce-widget blue-bg" ui-sref="abstract.orders({navigateTo: 'inProgress'})">
+                                <span><i class="fa fa-tasks"></i></span>
+                            </a>
+                            <div class="w-meta-info">
+                                <span class="w-meta-value number-animate counter" ng-model="yCtrIn" value="yCtrIn" to="yesterday.inprogress" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ yCtrIn | number:0 }}</span>
+                                <span class="w-meta-title font-bold-800 blue-color">In Progress</span>
+                                <span class="w-previos-stat">Last Day : {{ tCtrIn | number:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Box3 -->
+                    <div class="col-md-3 col-sm-6  m-t-lg">
+                        <div class="iconic-w-wrap number-rotate">
+                            <span class="stat-w-title">Orders Yesterday</span>
+                            <a href="#" class="ico-cirlce-widget yellow-bg" ui-sref="abstract.orders({navigateTo: 'shipped'})">
+                                <span><i class="fa fa-shopping-bag"></i></span>
+                            </a>
+                            <div class="w-meta-info">
+                                <span class="w-meta-value number-animate counter" ng-model="yCtrShipped" value="yCtrShipped" to="yesterday.shipped" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ yCtrShipped | number:0 }}</span>
+                                <span class="w-meta-title font-bold-800 yellow-color">Shipped</span>
+                                <span class="w-previos-stat">Last Day : {{ tCtrShipped | number:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Box4 -->
+                    <div class="col-md-3 col-sm-6  m-t-lg">
+                        <div class="iconic-w-wrap number-rotate">
+                            <span class="stat-w-title">Orders Yesterday</span>
+                            <a href="#" class="ico-cirlce-widget navy-bg" ui-sref="abstract.orders({navigateTo: 'completed'})">
+                                <span><i class="fa fa-check-square-o"></i></span>
+                            </a>
+                            <div class="w-meta-info">
+                                <span class="w-meta-value number-animate counter" ng-model="yCtrCompleted" value="yCtrCompleted" to="yesterday.completed" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ yCtrCompleted | number:0 }}</span>
+                                <span class="w-meta-title font-bold-800 navy-color">Completed</span>
+                                <span class="w-previos-stat">Last Day : {{ tCtrCompleted | number:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Box5 -->
+                    <div class="col-md-3 col-sm-6  m-t-lg" style="margin-left: -15px;">
+                        <div class="iconic-w-wrap number-rotate">
+                            <span class="stat-w-title">Orders Yesterday</span>
+                            <a href="#" class="ico-cirlce-widget red-bg" ui-sref="abstract.orders({navigateTo: 'rejected'})">
+                                <span><i class="fa fa-ban"></i></span>
+                            </a>
+                            <div class="w-meta-info">
+                                <span class="w-meta-value number-animate counter" ng-model="yCtrRejected" value="yCtrRejected" to="yesterday.rejected" duration="ctrl.myDuration" effect="ctrl.myEffect">{{ yCtrRejected | number:0 }}</span>
+                                <span class="w-meta-title font-bold-800 red-color">Rejected</span>
+                                <span class="w-previos-stat">Last Day : {{ tCtrRejected | number:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

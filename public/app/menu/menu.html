@@ -1,0 +1,561 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Menu </h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Menu</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 menu">
+        <div class="wrapper wrapper-content">
+            <div class="text-center animated fadeInRightBig"  id="topTab">
+                <!-- Tab -->
+                <div class="tabs-container ">
+                    <uib-tabset class="tabs-left main-tab ">
+                        <!-- Special -->
+                        <uib-tab class="tab-special">
+                            <uib-tab-heading>Special</uib-tab-heading>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <!--section as section.name for section in sectionsNames track by section.id-->
+                                    <div class="col-xs-11 specialItems">
+                                        <div class="col-sm-5" ng-class="{'col-xs-12': showSpecialForm, 'col-sm-5': !showSpecialForm}">
+                                            <div class="btn-toggle" ng-click="showSpecialForm = !showSpecialForm" ng-init="showSpecialForm=false" data-toggle="collapse" data-target="#selectbox">
+                                                <i class="fa m-r-md"  ng-class="{'fa-plus': !showSpecialForm, 'fa-minus' : showSpecialForm}"> </i>
+                                                <span>New Special Item</span>
+                                            </div>
+                                            <div class="collapse panel-box"  id="selectbox">
+                                                <div class="col-sm-8" >
+                                                    <!--track by groupedItems.id-->
+                                                    <select chosen id="" class="chosen-select" name="" style="width:200px;" ng-model="newSpecial" ng-options="t.id as t.name group by t.sectionName disable when t.isSpecial for t in groupedItems " required>
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button type="button" class="btn btn-primary" ng-click="activateSpecial(newSpecial)" ng-disabled="!newSpecial">Save</button>
+                                                </div>
+                                                <div class="clear clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- box -->
+                                    <div class="col-md-2 col-sm-4 col-xs-6 centralized special-box" ng-repeat="item in specialItems ">
+                                        <div class="special-header" style="">
+                                            <!-- 300 X 200 -->
+                                            <img class="img-responsive" ng-src="{{ item.imageUrl }}" default-image>
+                                        </div>
+                                        <div class="col-xs-12 special-body">
+                                            {{item.name}}
+                                        </div>
+                                        <div class="col-xs-12 special-footer">
+                                            <button class="btn btn-block btn-danger btn-xs" ng-click="deactivateSpecial(item.id,$index)">
+                                                <i class="fa fa-trash"></i>&nbsp;&nbsp;Remove
+                                            </button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div ng-show="!specialItems.length">
+                                        <div class="no-items"><i class="fa fa-archive fa-lg" style="color: #757373;"></i>&nbsp; No special items !</div>
+                                    </div>
+                                    <!-- / box -->
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <!-- Menu -->
+                        <uib-tab class="">
+                            <uib-tab-heading> <span class="blue-color">Menu</span></uib-tab-heading>
+                            <div class="panel-body">
+                                <div class="col-xs-12 m-b-md p-sides-0">
+
+                                    <table class="table">
+                                        <tbody>
+                                            <tr style="border-bottom: 1px solid #e7eaec;">
+                                                <td>
+                                                    <button type="button" class="btn btn-info m-r-sm">{{sectionslength | lengthChecker}}</button> Sections
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary m-r-sm">{{itemslength | lengthChecker}}</button> Items
+                                                </td>
+                                                <td ng-class="{'text-danger': filterDisableditems===false}">
+                                                    <button type="button" class="btn btn-danger m-r-sm" ng-click="filterDisabled()" >{{itemsDisabledLength | lengthChecker}}</button><i class="fa fa-search-minus" ng-show="filterDisableditems===false"></i> Disabled 
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- New - Edit  | Sections  -->
+                                <div class="col-xs-12 p-sides-0 m-b-lg form-container-s"  ng-show="showSection">
+                                    <form role="form" class="" name="sectionForm" novalidate>
+                                        <div class="form-group col-xs-12 col-sm-8 f-g"
+                                             ng-class="{'has-error':sectionForm.sectionNameInpt.$invalid && sectionForm.sectionNameInpt.$dirty }">
+                                            <label class="control-label">Section name <small>*</small></label>
+                                            <input type="text" name="sectionNameInpt" placeholder="Section name" ng-model="section.name" class="form-control" required>
+                                            <span ng-show="sectionForm.sectionNameInpt.$dirty && sectionForm.sectionNameInpt.$invalid"
+                                                  class="color-red">
+                                                <span class="message" ng-show="sectionForm.sectionNameInpt.$error.required">Section is required.</span>
+                                            </span>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-sm-12 form-container-footer">
+                                            <div class="col-xs-12 col-sm-8 p-sides-0 f-g">
+                                                <label>Description</label>
+                                                <textarea class="form-control" placeholder="Description" ng-model="section.description"></textarea>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 p-sides-0">
+                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="sectionForm.$invalid" ng-click="saveSectionForm(sectionForm)">
+                                                <input type="button" class="btn btn-white" value="Cancel" ng-click="cancelSectionForm(sectionForm)">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <!-- New - Edit  | Sections  -->
+                                <!-- New - Edit  | Items -->
+                                <div class="col-xs-12 p-sides-0 m-b-lg form-container-I " ng-show="showItem" >
+                                    <form class="" name="itemForm" id="edit_form" novalidate>
+                                        <!-- Left -->
+                                        <div class="col-xs-12  col-sm-8">
+                                            <div class="form-group col-xs-12"
+                                                 ng-class="{'has-error':itemForm.sectionInpt.$invalid && itemForm.sectionInpt.$dirty || itemForm.sectionInpt.$invalid && itemForm.sectionInpt.$touched   }">
+                                                <label class="control-label">Section <small>*</small></label>
+                                                <!-- s for s in sectionsNames                      -->
+                                                <!-- section as section.name for section in sectionsNames track by section.id -->
+                                                <select chosen id="states" class="chosen-select" name="sectionInpt" style="width:200px;" ng-model="item.sectionId" ng-options="section as section.name for section in sectionsNames track by section.id" required>
+                                                    <option value=""></option>
+                                                </select>
+                                                <span ng-show="itemForm.sectionInpt.$dirty && itemForm.sectionInpt.$invalid || itemForm.sectionInpt.$touched" class="color-red">
+                                                    <span class="message" ng-show="itemForm.sectionInpt.$error.required">Section is required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="form-group col-xs-12 "
+                                                 ng-class="{'has-error':itemForm.itemNameInpt.$invalid && itemForm.itemNameInpt.$dirty}">
+                                                <label class="control-label">Name <small>*</small></label>
+                                                <input type="text" name="itemNameInpt" placeholder="Name" class="form-control" ng-model="item.name" required>
+                                                <span ng-show="itemForm.itemNameInpt.$dirty && itemForm.itemNameInpt.$invalid" class="color-red">
+                                                    <span class="message" ng-show="itemForm.itemNameInpt.$error.required">Item name is required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="form-group col-xs-12 ">
+                                                <label>Description</label>
+                                                <textarea placeholder="Description" class="form-control" ng-model="item.description"></textarea>
+                                            </div>
+                                            <div class="form-group col-xs-12 ">
+                                                <label class="">Calories</label>
+                                                <input type="number" placeholder="Calories" class="form-control" ng-model="item.calories">
+                                            </div>
+                                            <div class="form-group col-xs-8 " ng-class="{'has-error':itemForm.itemPriceInpt.$invalid && itemForm.itemPriceInpt.$dirty}">
+                                                <label class="">Price <small>*</small></label>
+                                                <div class="input-group">
+                                                    <input type="number" name="itemPriceInpt" placeholder="price" class="form-control" ng-model="item.price" required>
+                                                    <span class="input-group-addon">{{VendorCurrency.primaryCurrency }}</span>
+                                                </div>
+                                                <!--<input type="number" name="itemPriceInpt" placeholder="price" class="form-control" ng-model="item.price" required>-->
+                                                <span ng-show="itemForm.itemPriceInpt.$dirty && itemForm.itemPriceInpt.$invalid" class="color-red">
+                                                    <span class="message" ng-show="itemForm.itemPriceInpt.$error.required">Item price is required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="form-group col-xs-12 ">
+                                                <label class="">Is Special?</label>
+                                                <div style="width:150px">
+                                                    <div toggle-switch class="switch-success switch-bg switch-mini m-b-sm btn-block" html="true" knob-label="SPECIAL" on-label='ON' off-label='OFF' ng-model="item.isSpecial"></div>
+                                                </div>
+                                                <!--<input type="checkbox" class="form-control" tooltip-placement="left" uib-tooltip="Check to add this item to special list" ng-model="item.isSpecial" style="margin-top: 24px;">-->
+                                            </div>
+                                            <div class="form-group col-xs-12 ">
+                                                <label class="m-r-md">Estimated time <small>*</small></label>
+                                                <uib-timepicker class="form-group-inline" name="itemEtaInpt" ng-model="item.eTATicks" required hour-step="1" minute-step="1" show-meridian="false" show-seconds="false"></uib-timepicker>
+                                            </div>
+                                        </div>
+                                        <!-- Right  -->
+                                        <!-- <div class="col-xs-12 col-sm-4">
+                                            <div class="form-group col-xs-12 ">
+                                                <input type="file" name="file" id="file" class="" style="display:none" onchange="angular.element(this).scope().photoChanged(this.files)" ng-model="item.img"/>
+                                                <div id="upload" class="drop-area" ng-click="open()">
+                                                    <i class="fa fa-2x fa-picture-o" ng-hide="thumbnail.dataUrl"></i>
+                                                    <img ng-src="{{ thumbnail.dataUrl }}" class=""  ng-if="thumbnail.dataUrl" />
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-xs-12 col-sm-4">
+                                            <div class="form-group col-xs-12 ">
+                                                <input type="file" name="file" id="file" class="" style="display:none" nv-file-select="" uploader="uploader" ng-model="aa" />
+                                                <div id="upload" class="drop-area outer-box" ng-click="open()">
+                                                    <i class="fa fa-2x fa-picture-o" ng-hide="hideIcon===true" ng-show="!item.imageUrl.length || item.imageUrl===''"></i>
+                                                    <img ng-src="{{ item.imageUrl }}" ng-show="item.imageUrl.length" ng-hide="hideItemImg && !item.imageUrl.length || creationMode ||  item.imageUrl=== '' " />
+                                                    <div id="inner-box" ng-show="item.imageUrl.length" ng-click="item.imageUrl='';check();uploader.clearQueue();$event.preventDefault();$event.stopPropagation()">
+                                                        <i ng-click="item.imageUrl='';check();uploader.clearQueue();$event.preventDefault();$event.stopPropagation()" ng-disabled="!uploader.queue.length" class="fa fa-trash fa-2x"></i>
+                                                    </div>
+                                                    <div id="inner-box" ng-show="!item.imageUrl.length">
+                                                        <i ng-disabled="!uploader.queue.length" class="fa fa-upload fa-2x"></i>
+                                                    </div>
+                                                    <div ng-repeat="itm in uploader.queue" style="z-index:99;">
+                                                        <div ng-if="controller.isImage(itm._file)">
+                                                            <div ng-thumb="{ file: itm._file, height: 100 }"></div>
+                                                        </div>
+                                                        <div id="inner-box" ng-click="item.imageUrl='';check();uploader.clearQueue();$event.preventDefault();$event.stopPropagation()">
+                                                            <i ng-click="item.imageUrl='';check();uploader.clearQueue();$event.preventDefault();$event.stopPropagation()" ng-disabled="!uploader.queue.length" class="fa fa-trash fa-2x"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Bottom | Options -->
+                                        <!-- Buttons | Options -->
+                                        <div class="clearfix"></div>
+                                    </form>
+                                    <!-- Bottom | Options -->
+                                    <div class="col-xs-12 col-sm-8 m-t-md menu">
+                                        <div class="form-group col-xs-12 menu">
+                                            <div class="item-options">
+                                                <label class="">Options</label>
+                                                <button type="button" class="pull-right" style="background-color: transparent;border: none;outline: none;" ng-click="addOption()">
+                                                    <i class="fa fa-plus-circle ico-hover red-color pointer" style="font-size:1.6em;"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="accordion-container options-accordion" style="">
+                                                <!-- ng-controller="Menu" -->
+                                                <uib-accordion close-others="oneAtATimeOption" class="accordion-fix">
+                                                    <ul ui-sortable="sortableOptions" ng-model="item.options" style="padding:0;">
+                                                        <!-- Size Option -->
+                                                        <li ng-if="creationMode">
+                                                            <!-- / editable for definition name -->
+                                                            <div uib-accordion-group class="panel-default option-row-heading" is-open="sizeOptionStatus.open" is-disabled="!sizeOptionIsEnabled">
+                                                                <uib-accordion-heading class="text-left ">
+                                                                    <span ng-class="{'text-navy': sizeOptionIsEnabled}">
+                                                                        <span>
+                                                                            <i class="handle fa fa-check-square-o" style="margin-right: 5px; font-size: 1.3em;"></i>
+                                                                        </span>
+                                                                        <span class="text-left option-name">
+                                                                            Size
+                                                                        </span>
+                                                                    </span>
+                                                                    <div  ng-click="$event.preventDefault();$event.stopPropagation();toggleSizeOption();" style="display: inline;">
+                                                                        <div toggle-switch class="switch-success switch-mini button-edit" html="true" knob-label="Active" on-label='YES' off-label='NO' ng-model="sizeOptionIsEnabled"></div>
+                                                                        <!--<button type="button" class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>-->
+                                                                    </div>
+                                                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': statusOption.open, 'glyphicon-chevron-right': !statusOption.open}"></i>
+                                                                </uib-accordion-heading>
+
+                                                                <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 options-tools-header">
+                                                                    <button class="btn btn-primary btn-xs " ng-click="addSizeOptnVal(sizeOption.defId,$index,$event)" style="right: 115px;">
+                                                                        <i class="fa fa-plus"></i> Add Option
+                                                                    </button>
+                                                                    <div toggle-switch class="switch-success switch-mini" html="true" knob-label="MULTI" on-label='ON' off-label='OFF' ng-model="sizeOption.isMultiOption"></div>
+                                                                </div>
+
+                                                                <div class="col-xs-12 p-sides-0 " ng-repeat="defValue in sizeOption.values">
+                                                                    <table class="col-xs-12 table-sections m-t-sm">
+                                                                        <tr>
+                                                                            <td class="vertical-align" style="padding:0;">
+                                                                                <div class="col-xs-12 p-sides-0">
+                                                                                    <div class="col-xs-12 p-sides-0" style="display: inline-flex;">
+                                                                                        <div class="col-xs-1 p-sides-0 bars">
+                                                                                            <i class="fa fa-lg fa-caret-right p-sides-xs"></i>
+                                                                                        </div>
+                                                                                        <div class="col-xs-5 p-sides-0 fix-x-left" style="padding-left: 5px!important;">
+                                                                                            <div>
+                                                                                                <div class="popover-wrapper">
+                                                                                                    <a href="" editable-text="defValue.name" ng-click="e()">{{ defValue.name || 'NAME' }}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-5 p-sides-0 fix-x-right">
+                                                                                            <div>
+                                                                                                <div class="popover-wrapper">
+                                                                                                    <a href="" editable-text="defValue.price" ng-click="e()">{{ defValue.price }}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-1 p-sides-0 pointer">
+                                                                                            <i class="fa fa-lg fa-remove red-color p-sides-xs" ng-click="removeSizeOptnVal(sizeOption.defId,$parent.$index,defValue.vId,$index)"></i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <!-- Size Option -->
+
+                                                        <!-- dynamic Options -->
+                                                        <li ng-repeat="iOption in item.options | orderBy:'positionOrder'">
+                                                            <!-- editable for definition name -->
+                                                            <div class="popover-wrapper fix-x-title" ng-show="textBtnForm.$visible">
+                                                                <span editable-text="iOption.name" e-form="textBtnForm">
+                                                                    {{ iOption.name || 'OPTION NAME' }}
+                                                                </span>
+                                                            </div>
+                                                            <!-- / editable for definition name -->
+                                                            <div uib-accordion-group class="panel-default option-row-heading" is-open="">
+                                                                <uib-accordion-heading class="text-left ">
+                                                                    <span>
+                                                                        <i class="handle fa fa-bars" style="margin-right: 5px; font-size: 1.3em;"></i>
+                                                                    </span>
+                                                                    <span class="text-left option-name">
+                                                                        {{iOption.name || "OPTION NAME"}}
+                                                                    </span>
+                                                                    <!-- <button class="btn btn-primary btn-xs button-edit" ng-click="addOptionValues(iOption.defId,$index,$event)" style="right: 115px;">
+                                                                        <i class="fa fa-plus"></i>
+                                                                    </button> -->
+                                                                    <button class="btn btn-warning btn-xs button-edit" ng-click="$event.preventDefault();$event.stopPropagation();textBtnForm.$show()" ng-hide="textBtnForm.$visible" style="right: 85px;">
+                                                                        <i class="fa fa-pencil-square-o"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-xs button-edit" ng-click="removeOption($index,$event)">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': statusOption.open, 'glyphicon-chevron-right': !statusOption.open}"></i>
+                                                                </uib-accordion-heading>
+
+                                                                <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 options-tools-header">
+                                                                    <button class="btn btn-primary btn-xs " ng-click="addOptionValues(iOption.defId,$index,$event)" style="right: 115px;">
+                                                                        <i class="fa fa-plus"></i> Add Option
+                                                                    </button>
+                                                                    <div toggle-switch class="switch-success switch-mini" html="true" knob-label="MULTI" on-label='ON' off-label='OFF' ng-model="iOption.isMultiOption" ></div>
+                                                                </div>
+
+                                                                <div class="col-xs-12 p-sides-0 " ng-repeat="defValue in iOption.values">
+                                                                    <table class="col-xs-12 table-sections m-t-sm">
+                                                                        <tr>
+                                                                            <td class="vertical-align" style="padding:0;">
+                                                                                <div class="col-xs-12 p-sides-0">
+                                                                                    <div class="col-xs-12 p-sides-0" style="display: inline-flex;">
+                                                                                        <div class="col-xs-1 p-sides-0 bars">
+                                                                                            <i class="fa fa-lg fa-caret-right p-sides-xs"></i>
+                                                                                        </div>
+                                                                                        <!-- Temporarily Hidden -->
+                                                                                        <!--<div class="col-xs-5 p-sides-0 fix-x-left" style="padding-left: 5px!important;">
+                                                                                            <div>
+                                                                                                <div class="popover-wrapper">
+                                                                                                    <a href="" editable-text="defValue.key" ng-click="e()" e-pattern="[a-zA-Z][a-zA-Z0-9]*" e-title="English alphanumeric only !" e-required>{{ defValue.key || 'KEY?' }}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>-->
+                                                                                        <div class="col-xs-5 p-sides-0 fix-x-left" style="padding-left: 5px!important;">
+                                                                                            <div>
+                                                                                                <div class="popover-wrapper">
+                                                                                                    <a href="" editable-text="defValue.name" ng-click="e()">{{ defValue.name || 'NAME' }}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-5 p-sides-0 fix-x-right">
+                                                                                            <div>
+                                                                                                <div class="popover-wrapper">
+                                                                                                    <a href="" editable-text="defValue.price" ng-click="e()">{{ defValue.price }}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-1 p-sides-0 pointer">
+                                                                                            <i class="fa fa-lg fa-remove red-color p-sides-xs" ng-click="removeValue(iOption.defId,$parent.$index,defValue.vId,$index)"></i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- <tr ng-show="!filteredCenters.length"><td style="padding-top: 15px;font-weight: 500;"><i class="fa fa-archive fa-lg" style="color: #757373;"></i> No Data available !</td></tr> -->
+                                                                    </table>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <!-- dynamic Options -->
+                                                    </ul>
+                                                </uib-accordion>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Buttons | Options -->
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <input type="button" class="btn btn-primary" value="Save" ng-disabled="itemForm.$invalid" ng-click="saveItemForm(itemForm)" />
+                                        <input type="button" class="btn btn-white" value="Cancel" ng-click="cancelItemForm(itemForm)" />
+                                    </div>
+                                </div>
+                                <!-- New - Edit  | Items -->
+                                <div class="col-xs-12 ">
+                                    <div class="col-xs-10 col-sm-5 p-sides-0">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" ng-model="searchBy" placeholder="Filter by ..." />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 pull-right">
+                                        <!-- <i class="fa fa-plus-circle fa-3x red-color pointer"></i> -->
+                                        <!-- New Section-Item Button  -->
+                                        <div class="btn-group dropdown" uib-dropdown="">
+                                            <button type="button" class="" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false" style="background-color: transparent;border: none;outline: none;">
+                                                <i class="fa fa-plus-circle fa-3x ico-hover red-color pointer"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button" style="left: -50px;">
+                                                <li role="menuitem" ng-click="newSectionForm(sectionForm)"><a href="">Section</a></li>
+                                                <li role="menuitem" ng-click="newItemForm(itemForm)"><a href="">Item</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Accordion - full Menu -->
+                                <div class="col-xs-12 menu">
+                                    <div class="accordion-container">
+                                        <div ng-repeat="(menukey, menu) in menusResolved" class="main-menu-container">
+                                            <h2 class="text-left"><i class="fa fa-list-ul"></i>{{menu.name}}</h2>
+                                            <uib-accordion close-others="oneAtATime" class="accordion-fix">
+                                                <!-- ui-sortable="sortableSections" -->
+                                                <ul ui-sortable="sortableSections" ng-model="menu.sections" style="padding:0;">
+                                                    <li ng-repeat="section in menu.sections | filter:searchBy:strict | filter: {items:{isActive:filterDisableditems }} | orderBy:['positionOrder'] " id="{{$parent.$index}}">
+                                                        <div uib-accordion-group class="panel-default">
+                                                            <uib-accordion-heading class="text-left">
+                                                                <span><i class="handle fa fa-bars header-bar" ></i></span>
+                                                                <span>
+                                                                    <span class="item-length badge">{{section.items.length}}</span>
+                                                                    <span class="text-left text-capitalize m-l-xs">{{section.name}}</span>
+                                                                </span>
+                                                                <!--<span class="section_actions pull-right">
+                                                                    <a class="btn-xs btn-success btn-bitbucket m-r-xs" ng-click="$event.stopPropagation();editSectionForm(sectionForm,menukey,$index,section.id)">
+                                                                        <i class="fa fa-edit "></i>
+                                                                    </a>
+                                                                    <a class="btn-xs btn-danger btn-bitbucket" ng-click="$event.stopPropagation();deleteSection(menukey,section.id,$index)">
+                                                                        <i class="fa fa-trash "></i>
+                                                                    </a>
+                                                                </span>
+
+                                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>-->
+
+                                                                <span class="pull-right section_actions">
+                                                                    <span class="m-r-md ">
+                                                                        <a class="btn btn-xs btn-success btn-outline m-r-xs" ng-click="$event.stopPropagation();editSectionForm(sectionForm,menukey,$index,section.id)">
+                                                                            <i class="fa fa-edit "></i>
+                                                                        </a>
+                                                                        <a class="btn btn-xs btn-danger btn-outline" ng-click="$event.stopPropagation();deleteSection(menukey,$index,section.id)">
+                                                                            <i class="fa fa-trash "></i>
+                                                                        </a>
+                                                                    </span>
+                                                                    <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                                                </span>
+                                                            </uib-accordion-heading>
+                                                            <div class="col-xs-12 p-sides-0 ">
+                                                                <div class="col-xs-12 table-sections m-t-sm">
+                                                                    <ul class="p-l-0" ui-sortable="sortableItems" ng-model="section.items">
+                                                                        <li class="vertical-align row-2" ng-repeat="item in section.items | filter: {isActive:filterDisableditems } |  orderBy:'positionOrder'" id="{{section.id}}" parentIdx="{{$parent.$index}}" menuIdx="{{menukey}}" ng-init="filterDisableditems=''">
+                                                                            <div class="col-xs-12 p-sides-0">
+                                                                                <div class="p-sides-0" style="display: inline-flex;">
+                                                                                    <div class="bars">
+                                                                                        <i class="handle fa fa-bars"></i>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 p-sides-0 item-image">
+                                                                                        <div class="" ng-show="!item.imageUrl.length || item.imageUrl===''">
+                                                                                            <i class="fa fa-2x fa-picture-o"></i>
+                                                                                        </div>
+                                                                                        <img ng-src="{{item.imageUrl}}" class="col-xs-10 p-sides-0" ng-hide="!item.imageUrl.length" onError="angular.element(this).hide()">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-xs-12 text-left " style="align-items: flex-start;">
+                                                                                    <div class="col-xs-12 p-sides-0">
+                                                                                        <div class="col-xs-12 p-sides-0">
+                                                                                            <h4 style="margin: 0;">
+                                                                                                <strong class="a_title2 text-capitalize">{{item.name}}</strong>
+                                                                                            </h4>
+                                                                                        </div>
+                                                                                        <div class="text-muted col-xs-12 p-sides-0 p-r-xs" style="padding-top: 10px;padding-right: 5px !important;">
+                                                                                            <div class="col-xs-12 p-sides-0" style="font-weight: 400;word-break: break-all;">{{item.description}}</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-xs-12 p-sides-0 " style="padding-top: 10px;">
+                                                                                        <div class="col-xs-4 p-sides-0">
+                                                                                            {{item.price}}
+                                                                                        </div>
+                                                                                        <div class="col-xs-3 p-sides-0" style="">
+                                                                                            <div class="switch">
+                                                                                                 <!--<div class="onoffswitch"  tooltip-placement="top" uib-tooltip="Check to activate this item">
+                                                                                                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox active_checkbox" id="collapsemenu" ng-model="item.isActive" ng-change="itemActive(menukey,$parent.$index,$index,item.id,item.isActive)"/>
+                                                                                                        <label class="onoffswitch-label" for="collapsemenu" >
+                                                                                                            <span class="onoffswitch-inner"></span>
+                                                                                                            <span class="onoffswitch-switch" style="height:18px!important;"></span>
+                                                                                                        </label>
+                                                                                                    </div>--> 
+                                                                                                <span tooltip-placement="top" uib-tooltip="Check to activate this item">
+                                                                                                    <!--<input type="checkbox" class="js-switch" ui-switch="{color:'#1AB394',size:'small',speed:'1.0s' }" ng-model="item.isActive" ng-change="itemActive(menukey,$parent.$index,$index,item.id,item.isActive)" />-->
+                                                                                                    <div toggle-switch class="switch-success switch-mini" html="true" knob-label="Active" on-label='YES' off-label='NO' ng-model="item.isActive" ng-change="itemActive(menukey,$parent.$index,$index,item.id,item.isActive)"></div>
+                                                                                                    
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xs-1">
+                                                                                            <i class="fa-inject-circle bg-primary pointer" uib-tooltip="Clone" ng-click="cloneItem(itemForm,menukey,$parent.$index,$index,item.id)">
+                                                                                                <i class="fa fa-clone" style=""></i>
+                                                                                            </i>
+                                                                                        </div>
+                                                                                        <div class="col-xs-2">
+                                                                                            <i class="fa-inject-circle red-bg pointer" uib-tooltip="Edit" ng-click="editItemForm(itemForm,menukey,$parent.$index,$index,item.id)">
+                                                                                                <i class="fa fa-pencil" style=""></i>
+                                                                                            </i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- </div>-->
+                                                                            <div class="clearfix"></div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div ng-show="!section.items.length">
+                                                                        <div style="padding-top: 15px;font-weight: 500;"><i class="fa fa-archive fa-lg" style="color: #757373;"></i> No Items available !</div>
+                                                                    </div>
+                                                                </div> <!-- Old Table -->
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </uib-accordion>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Accordion -->
+                            </div>  <!-- End panel -->
+                        </uib-tab>
+                    </uib-tabset>
+                    <!-- Tab -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="deleteSection.html">
+    <div class="modal-header order-modal-header">
+        <h2 class="modal-title"><i class="fa fa-exclamation-circle fa-lg text-warning"></i>Warning</h2>
+    </div>
+    <div class="modal-body order-modal-body p-xl">
+        <span ng-if="!deleteRejection">Are you sure you want to delete this section ?</span>
+        <span ng-if="deleteRejection" class="alert alert-warning"> <strong>WARNGING!</strong>  You need to deactivate all active and special items related to this section before you can delete it. </span>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-if="!deleteRejection"  ng-click="confirmSectionDelete()">Sure</button>
+        <button class="btn btn-primary btn-w-m" type="button" ng-click="cancel()">Dismiss</button>
+    </div>
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var widthFix = function () {
+            var width = $(window).width();
+            if (width < 951) {
+                $('.main-tab').removeClass("tabs-left");
+
+            } else if (width > 950) {
+                $('.main-tab').addClass("tabs-left");
+            }
+        };
+        widthFix();
+        $(window).resize(function () {
+            widthFix();
+        });
+    });
+</script>
