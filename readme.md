@@ -40,7 +40,7 @@ php artisan key:generate
 php artisan passport:client --password
 #from cmd copy the Id and Client secret to Vendor.api/enviroment.js
 
-# seed roles and users
+# seed roles and users, clients
 php artisan db:seed
 
 #reload

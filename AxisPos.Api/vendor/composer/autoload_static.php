@@ -360,6 +360,7 @@ class ComposerStaticInit603c71f7e256ea1c06b9e70493388618
     );
 
     public static $classMap = array (
+        'ClientsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ClientsTableSeeder.php',
         'CorsKernel' => __DIR__ . '/..' . '/barryvdh/laravel-cors/tests/CorsKernel.php',
         'CorsServiceTest' => __DIR__ . '/..' . '/barryvdh/laravel-cors/tests/CorsServiceTest.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',

@@ -14,8 +14,8 @@
     //window.__env.SignalrUrl = "https://localhost:44395/signalr";
 
     //window.__env.vendorId = "DC57171B-ECE0-439D-93BF-0B55807172FF";
-    window.__env.clientId = '6';
-    window.__env.clientSecret = 'kqpFMuwonOSnJH8BSKmNttlcm5N9gUPiOsy32jvT';
+    window.__env.clientId = '926';
+    window.__env.clientSecret = 'kqpFMuwonOSnJH8BSKmNttlcm5N9gUPiOsy32jvP';
 
     // Base url
     window.__env.baseUrl = '/';
