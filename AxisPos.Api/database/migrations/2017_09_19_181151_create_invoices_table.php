@@ -15,6 +15,14 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('number')->unique();
+            $table->date('date'); 
+            $table->string('customer', 250); //foriegn key
+            $table->integer('subtotal', 250);
+            $table->integer('discount');
+            $table->integer('vat'); //foriegn key            
+            $table->integer('total');
+            $table->enum('status', array('Pending', 'Payed', 'Partial'));
             $table->timestamps();
         });
     }

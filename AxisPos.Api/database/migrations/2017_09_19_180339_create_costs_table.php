@@ -15,6 +15,12 @@ class CreateCostsTable extends Migration
     {
         Schema::create('costs', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date'); 
+            $table->string('description', 250); 
+            $table->integer('amount');
+            $table->enum('status', array('Cash', 'Cheque'));
+            $table->string('account', 250); //foriegn key
+            $table->text('notes');
             $table->timestamps();
         });
     }

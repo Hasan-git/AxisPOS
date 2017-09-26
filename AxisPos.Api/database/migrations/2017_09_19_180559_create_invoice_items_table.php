@@ -15,6 +15,12 @@ class CreateInvoiceItemsTable extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('invoiceId'); //foriegn
+            $table->string('item', 250); //foriegn
+            $table->integer('price');
+            $table->integer('qty');
+            $table->integer('vat');
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }

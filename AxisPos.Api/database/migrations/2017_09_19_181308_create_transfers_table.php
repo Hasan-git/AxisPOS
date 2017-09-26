@@ -15,6 +15,11 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date');
+            $table->string('from', 250); //foriegn key
+            $table->string('to', 250); //foriegn key
+            $table->integer('amount');
+            $table->text('note');
             $table->timestamps();
         });
     }

@@ -15,6 +15,17 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('barcode', 250)->unique();
+            $table->string('brand', 250); //foriegn key
+            $table->string('category', 250); //foriegn key
+            $table->string('type', 250);
+            $table->string('name', 250);
+            $table->integer('qty');
+            $table->integer('price');
+            $table->integer('cost');
+            $table->text('note');
+            $table->boolean('taxed');
+            $table->boolean('enabled');
             $table->timestamps();
         });
     }
